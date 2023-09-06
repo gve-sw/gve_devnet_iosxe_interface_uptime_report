@@ -45,7 +45,13 @@ class CustomReport():
 
             ip_address = csv_data.loc[index, 'IP Address']
             interface_name = csv_data.loc[index,'Interface Name']
-            interface_abbr = interface_name[:2] + re.findall(r"\d+(?:/\d+)+", interface_name)[0]
+
+            if re.findall(r"\d+(?:/\d+)+", interface_name) != []:
+                interface_abbr = interface_name[:2] + re.findall(r"\d+(?:/\d+)+", interface_name)[0]
+            elif re.findall(r"(\d+)", interface_name) != []:
+                interface_abbr = interface_name[:2] + re.findall(r"(\d+)", interface_name)[0]
+            else:
+                interface_abbr = interface_name[:2]
 
             self.update_device_time_list_entries(collected_device_data, ip_address, interface_name, interface_abbr, index)
         
