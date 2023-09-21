@@ -20,23 +20,32 @@ from dotenv import load_dotenv
 from device_collector import DeviceCollector
 from dnac_collector import DNACCollector
 from custom_report import CustomReport
+from dnac_api import DNACenterAPI
+from testbed_creator import TestbedCreator
 
 load_dotenv()
 
 if __name__ == "__main__":
 
-    testbed_filename = os.getenv('TESTBED_FILENAME')
+    testbed_filename = "testbed.yaml"
     command = "show interfaces link"
     dnac_username = os.getenv('DNAC_USERNAME')
     dnac_password = os.getenv('DNAC_PASSWORD')
     dnac_base_url = os.getenv('DNAC_BASE_URL')
+    enable_username = os.getenv('ENABLE_USERNAME')
+    enable_password = os.getenv('ENABLE_PASSWORD')
+    
+    dnac_api = DNACenterAPI(dnac_username, dnac_password, dnac_base_url)
+
+    testbed_creator = TestbedCreator(dnac_api, testbed_filename, enable_username, enable_password)
+    testbed_creator.populate_testbed_file()
 
     device_collector = DeviceCollector(testbed_filename, command)
     collected_device_data = device_collector.parse_all_devices()
 
-    dnac_collector = DNACCollector(dnac_username, dnac_password, dnac_base_url)
+    dnac_collector = DNACCollector(dnac_api)
     collected_dnac_data, report_id = dnac_collector.get_custom_VLAN_report()
-    
+ 
     custom_report = CustomReport()
     custom_report = custom_report.create_custom_report(collected_device_data, collected_dnac_data)
 

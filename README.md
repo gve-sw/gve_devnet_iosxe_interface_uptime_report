@@ -1,5 +1,5 @@
 # gve_devnet_iosxe_interface_uptime_report
-This sample script creates a report consisting of the DNA Center VLAN report data and uptime/down time per interface. Therefore, it retrieves the uptime/down time data directly from the device and appends it to the latest VLAN report from DNA Center. The mentioned DNA Center report is triggered, downloaded and deleted automatically as part of the script. 
+This sample script creates a report for Cisco Catalyst 9300, 9500 and 9200L devices, consisting of the DNA Center VLAN report data and uptime/downtime per interface. Therefore, it retrieves the uptime/downtime data directly from the device and appends it to the latest VLAN report from DNA Center. The mentioned DNA Center report is triggered, downloaded and deleted automatically as part of the script. 
 
 
 ## Contacts
@@ -16,7 +16,6 @@ This sample script creates a report consisting of the DNA Center VLAN report dat
 ## High Level Design
 
 ![/IMAGES/highlevel.png](/IMAGES/highlevel.png)
-
 
 
 ## Prerequisites
@@ -53,39 +52,22 @@ This sample script creates a report consisting of the DNA Center VLAN report dat
     pip3 install -r requirements.txt
     ```
 
-7. Add the IP address, username and password that you collected in the Prerequisites section in a testbed file (see the example_testbed file as reference).
+7. Add the DNA Center IP address, username, and password, as well as the devices' enable username and password that you collected in the Prerequisites section in the .env file. The testbed file is automatically populated based on the DNAC inventory and provided information. 
     
     ```
-    devices:
-        cat9k_1:
-            type: switch
-            os: iosxe
-            platform: cat9k
-            credentials:
-                default:
-                    username: <Add username of swithc>
-                    password: <Add password of swithc>
-            connections:
-                cli:
-                    protocol: ssh
-                    ip: <Add ip of switch>
-    ```
-
-8. Add the DNA Center IP address, username, and password that you collected in the Prerequisites section, and the name of the testbed in the .env file.
-    
-    ```
-    TESTBED_FILENAME=sample_testbed.yaml
-
     DNAC_USERNAME="<Add username of DNA Center>"
     DNAC_PASSWORD="<Add password of DNA Center>"
     DNAC_BASE_URL="<Add url for DNA Center instance e.g. https://xx.xx.xx.xx>"
+
+    ENABLE_USERNAME="<Enable username of the devices>"
+    ENABLE_PASSWORD="<Enable password of the devices>"
     ```
 
 > Note: Mac OS hides the .env file in the finder by default. View the demo folder for example with your preferred IDE to make the file visible.
 
 ## Usage
 
-10. Run the script:   
+8. Run the script:   
 
 ```python3 app.py```
 

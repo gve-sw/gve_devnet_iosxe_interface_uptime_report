@@ -14,8 +14,7 @@ writing, software distributed under the License is distributed on an "AS
 IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
 or implied.
 '''
-
-from dnac_api import DNACenterAPI 
+ 
 import requests
 import sys
 import time
@@ -25,9 +24,9 @@ import datetime
 
 class DNACCollector:
 
-    def __init__(self, username, password, base_url):
+    def __init__(self, dnac_api):
 
-        self.dnac_api = DNACenterAPI(username, password, base_url)
+        self.dnac_api = dnac_api
         self.REPORT_CATEGORY = 'Network Devices'
         self.VIEW_NAME = 'VLAN'
 
@@ -129,7 +128,49 @@ class DNACCollector:
                         ]
                     }
                 ],
-                "filters": [],
+                "filters":[{
+                    "type": "REGULAR",
+                    "name": "Location",
+                    "displayName": "Location",
+                    "type": "MULTI_SELECT_TREE",
+                    "scope": "",
+                    "filterSpecId": "",
+                    "value": []
+                },
+                {
+                    "type": "REGULAR",
+                    "name": "DeviceFamily",
+                    "displayName": "Device Family",
+                    "type": "MULTI_SELECT",
+                    "scope": "",
+                    "filterSpecId": "",
+                    "value": [
+                        {
+                            "value": "Switches and Hubs",
+                            "displayValue": "Switches and Hubs"
+                        }
+                    ]
+                },
+                {
+                    "type": "REGULAR",
+                    "name": "DeviceType",
+                    "displayName": "Device Type",
+                    "type": "MULTI_SELECT",
+                    "scope": "",
+                    "filterSpecId": "",
+                    "value": [
+                        {
+                            "value": "Cisco Catalyst 9300 Switch",
+                            "displayValue": "Cisco Catalyst 9300 Switch"
+                        },{
+                            "value": "Cisco Catalyst 9500 Switch",
+                            "displayValue": "Cisco Catalyst 9500 Switch"
+                        },{
+                            "value": "Cisco Catalyst 9200L Switch Stack",
+                            "displayValue": "Cisco Catalyst 9200L Switch Stack"
+                        }
+                    ]
+                }],
                 "format": {
                     "name": "CSV",
                     "formatType": "CSV",
